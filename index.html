@@ -45,7 +45,7 @@ button{font-family:inherit;cursor:pointer;color:inherit}
 /* ---------- 메인 레이아웃 ---------- */
 #main{display:flex;flex-direction:column;height:100dvh}
 .top{display:flex;align-items:center;gap:8px;padding:8px 12px;padding-top:max(8px,env(safe-area-inset-top));background:var(--accent);color:#fff}
-.top h1{margin:0 auto 0 4px;font-family:var(--serif);font-size:20px;font-weight:700;white-space:nowrap}
+.top h1{cursor:pointer;margin:0 auto 0 4px;font-family:var(--serif);font-size:20px;font-weight:700;white-space:nowrap}
 .top button{background:rgba(255,255,255,.14);border:0;border-radius:8px;color:#fff;padding:8px 12px;font-size:14px;white-space:nowrap}
 .top button:hover{background:rgba(255,255,255,.26)}
 .top .primary{background:#fff;color:var(--accent);font-weight:700}
@@ -145,6 +145,45 @@ button{font-family:inherit;cursor:pointer;color:inherit}
 .p-del{border:0;background:none;color:#b3705f;font-size:13px;padding:6px 8px;border-radius:6px}
 .p-del:hover{background:#f7e6e1}
 
+
+/* 홈 화면 */
+.home{width:100%;height:100%;overflow-y:auto}
+.home-in{max-width:720px;margin:0 auto;padding:28px 20px 40px}
+.home-date{color:var(--muted);font-size:14px}
+.home-h{font-family:var(--serif);font-size:27px;margin:6px 0 18px}
+.home-actions{display:flex;gap:10px;flex-wrap:wrap}
+.big{background:var(--accent);color:#fff;border:0;border-radius:12px;padding:15px 26px;font-size:17px;font-weight:700}
+.big:hover{filter:brightness(1.12)}
+.ghost{background:var(--paper);border:1px solid #cfc8b6;border-radius:12px;padding:15px 20px;font-size:15px}
+.home h3{margin:32px 0 10px;font-size:15px;color:var(--accent)}
+.hc{display:block;width:100%;text-align:left;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.hc:hover{border-color:var(--accent)}
+.hc .hd{font-size:13px;color:var(--muted)}
+.hc .ht{font-family:var(--serif);font-weight:700;font-size:17px;margin:4px 0}
+.hc .ht i{color:#b5b0a0;font-weight:400}
+.hc .hp{color:#6d6a5f;font-size:14px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mobile-only{display:none}
+
+/* 완료 버튼 */
+.p-done{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:9px 20px;font-size:14px;font-weight:700}
+.p-done:hover{filter:brightness(1.15)}
+
+/* 달력: 연도 입력 + 월 버튼 */
+.cal-year{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px}
+.cal-year button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 10px;font-size:13px}
+.cal-year .mini{font-size:12px;padding:5px 8px;margin-left:4px}
+.cal-year input{width:78px;padding:5px 6px;border:1px solid var(--line);border-radius:8px;font-size:16px;text-align:center;background:#fff}
+.cal-months{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-bottom:12px}
+.mo{position:relative;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px 0;font-size:13px}
+.mo:hover{background:var(--accent-soft)}
+.mo.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.mo.has::after{content:'';position:absolute;top:3px;right:4px;width:5px;height:5px;border-radius:50%;background:var(--red)}
+/* 일기 쓴 날: 초록 칸 + 굵은 글씨 + 빨간 점 */
+.day.has{background:#cfe4d6;font-weight:700;color:#1f3329}
+.day.sel,.day.sel.has{background:var(--accent);color:#fff}
+.cal-legend{font-size:12px;color:var(--muted);text-align:center;margin-top:12px;line-height:1.6}
+.cal-legend .lg{display:inline-block;width:14px;height:14px;border-radius:50%;background:#cfe4d6;vertical-align:-2px;margin-right:4px}
+
 /* 확대 보기 / 토스트 */
 #lightbox{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:50;display:flex;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
 #lightbox img{max-width:100%;max-height:100%;border-radius:6px}
@@ -156,6 +195,8 @@ button{font-family:inherit;cursor:pointer;color:inherit}
 @media (max-width:899px){
   #btnMenu{display:inline-block}
   #btnMode{display:none}
+  .mobile-only{display:inline-block}
+  .p-done{padding:9px 14px}
   #side{position:fixed;top:0;bottom:0;left:0;width:min(86vw,340px);z-index:30;transform:translateX(-102%);transition:transform .25s;box-shadow:4px 0 24px rgba(0,0,0,.25);padding-top:env(safe-area-inset-top)}
   body.side-open #side{transform:none}
   body.side-open #scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:20}
@@ -204,7 +245,8 @@ button{font-family:inherit;cursor:pointer;color:inherit}
 <div id="main" hidden>
   <header class="top">
     <button id="btnMenu" aria-label="메뉴">☰</button>
-    <h1>📖 내 일기장</h1>
+    <h1 id="btnTitle" title="홈으로">📖 내 일기장</h1>
+    <button id="btnHome">🏠<span class="label"> 홈</span></button>
     <button id="btnMode" title="보기 방식 바꾸기"></button>
     <button id="btnNew" class="primary">＋<span class="label"> 새 일기</span></button>
   </header>
@@ -419,6 +461,8 @@ function createPage(date) {
   const ref = doc(db, 'users', uid, 'entries', date);
   const st = { title: '', weather: '', weatherText: '', body: '', photoCount: 0, exists: false };
   let loaded = false, dirty = false, timer = null, photos = [], dead = false;
+  const pending = new Set();
+  const track = pr => { pending.add(pr); const fin = () => pending.delete(pr); pr.then(fin, fin); return pr; };
   const d0 = parseYmd(date);
 
   const el = document.createElement('article');
@@ -448,10 +492,11 @@ function createPage(date) {
       </label>
       <span class="p-status"></span>
       <button class="p-del" type="button" hidden>이 일기 삭제</button>
+      <button class="p-done" type="button">✓ 완료</button>
     </div>`;
 
   const $t = $('.p-title', el), $b = $('.p-body', el), $wt = $('.wx-text', el);
-  const $ph = $('.p-photos', el), $st = $('.p-status', el), $del = $('.p-del', el), $file = $('input[type=file]', el);
+  const $ph = $('.p-photos', el), $st = $('.p-status', el), $del = $('.p-del', el), $file = $('input[type=file]', el), $done = $('.p-done', el);
   const setStatus = s => { $st.textContent = s; };
   const fit = () => { $b.style.height = 'auto'; $b.style.height = Math.max($b.scrollHeight, 0) + 'px'; };
   const paintWx = () => el.querySelectorAll('.wx').forEach(b => b.classList.toggle('on', b.dataset.k === st.weather));
@@ -468,8 +513,8 @@ function createPage(date) {
     setStatus(navigator.onLine ? '저장 중…' : '오프라인 — 연결되면 자동 저장돼요');
     st.exists = true; $del.hidden = false;
     cacheUpsert(date, st.title, st.weather);
-    setDoc(ref, data, { merge: true })
-      .then(() => { if (!dirty) setStatus('저장됨 ✓'); })
+    const w = setDoc(ref, data, { merge: true }); track(w);
+    w.then(() => { if (!dirty) setStatus('저장됨 ✓'); })
       .catch(e => { console.error(e); setStatus('저장 실패'); toast(e.code === 'permission-denied' ? '권한 오류예요. Firestore 규칙의 이메일을 확인해주세요.' : '저장에 실패했어요.'); });
   }
 
@@ -521,11 +566,14 @@ function createPage(date) {
         if (data.length > 900000) throw new Error('size');
         const id = 'p' + Date.now() + Math.random().toString(36).slice(2, 6);
         photos.push({ id, data, ts: Date.now(), name: f.name }); drawPhotos();
-        setDoc(doc(collection(ref, 'photos'), id), { data, ts: Date.now(), name: f.name }).catch(e => { console.error(e); toast('사진 저장에 실패했어요.'); });
+        const pw = setDoc(doc(collection(ref, 'photos'), id), { data, ts: Date.now(), name: f.name }); track(pw);
+        pw.catch(e => { console.error(e); toast('사진 저장에 실패했어요.'); });
         st.photoCount = photos.length; dirty = true; save();
       } catch (e) { console.error(e); toast('사진을 처리하지 못했어요: ' + f.name); setStatus(''); }
     }
   });
+
+  $done.addEventListener('click', completeAll);
 
   /* 삭제 */
   $del.addEventListener('click', async () => {
@@ -565,6 +613,13 @@ function createPage(date) {
   const api = {
     el,
     flush() { if (dirty) save(); },
+    settle(ms = 4000) {
+      if (dirty) save();
+      if (!pending.size) return Promise.resolve('ok');
+      if (!navigator.onLine) return Promise.resolve('timeout');
+      const all = Promise.allSettled([...pending]).then(rs => rs.some(r => r.status === 'rejected') ? 'fail' : 'ok');
+      return Promise.race([all, new Promise(r => setTimeout(() => r('timeout'), ms))]);
+    },
     destroy() {
       dead = true; clearTimeout(timer);
       document.removeEventListener('fschange', fit); window.removeEventListener('resize', fit);
@@ -589,15 +644,7 @@ async function startApp() {
   if (started) return; started = true;
   $('#userMail').textContent = userEmail;
   updateModeBtn();
-  try {
-    const s = await getDocs(query(entriesCol(), orderBy('date', 'desc'), limit(1)));
-    if (s.docs.length) await openDate(s.docs[0].id);
-    else render();
-  } catch (e) {
-    console.error(e);
-    toast(e.code === 'permission-denied' ? '권한 오류예요. Firestore 규칙의 이메일을 확인해주세요.' : '데이터를 불러오지 못했어요.', 5000);
-    render();
-  }
+  render();
 }
 
 async function openDate(date, dir) {
@@ -617,11 +664,7 @@ async function openDate(date, dir) {
 function render(dir) {
   pages.forEach(p => p.destroy()); pages = [];
   const book = $('#book'); book.innerHTML = '';
-  if (!view.left) {
-    book.innerHTML = `<div class="empty"><div class="logo">📖</div><h2>아직 일기가 없어요</h2><p>오늘의 첫 일기를 써볼까요?</p><button id="btnFirst">＋ 첫 일기 쓰기</button></div>`;
-    $('#btnFirst').addEventListener('click', () => openDate(today()));
-    $('#pager').hidden = true; refreshSide(true); return;
-  }
+  if (!view.left) { renderHome(); $('#pager').hidden = true; refreshSide(true); return; }
   const two = isTwo();
   const sp = document.createElement('div');
   sp.className = 'spread ' + (two ? 'two' : 'one') + (dir ? ' flip-' + dir : '');
@@ -668,10 +711,68 @@ async function flipPrev() {
 }
 async function afterDelete(date) {
   cacheRemove(date);
-  const [pv] = await neighbor(date, -1, 1), [nx] = await neighbor(date, 1, 1);
-  const t = pv || nx;
-  if (t) await openDate(t); else { view = { left: null, right: null }; render(); }
+  await showHome();
 }
+
+/* ---------- 홈 화면 ---------- */
+let homeGen = 0;
+async function showHome() {
+  await flushAll();
+  view = { left: null, right: null };
+  render();
+  closeSide();
+}
+function renderHome() {
+  const book = $('#book'), n = new Date(), t = today();
+  book.innerHTML = `<div class="home"><div class="home-in">
+    <div class="home-date">${n.getFullYear()}년 ${n.getMonth() + 1}월 ${n.getDate()}일 ${WD[n.getDay()]}요일</div>
+    <h2 class="home-h">오늘 하루는 어땠나요?</h2>
+    <div class="home-actions">
+      <button id="homeToday" class="big">✏️ 오늘 일기 쓰기</button>
+      <button id="homeMenu" class="ghost mobile-only">📅 달력 · 연도별 목록</button>
+    </div>
+    <h3>최근 일기</h3>
+    <div id="homeList"><p class="muted">불러오는 중…</p></div>
+  </div></div>`;
+  $('#homeToday').addEventListener('click', () => openDate(t));
+  $('#homeMenu').addEventListener('click', () => document.body.classList.add('side-open'));
+  const gen = ++homeGen;
+  getDocs(query(entriesCol(), orderBy('date', 'desc'), limit(10))).then(snap => {
+    const list = $('#homeList');
+    if (gen !== homeGen || !list) return;
+    if (!snap.docs.length) { list.innerHTML = '<p class="muted">아직 쓴 일기가 없어요.<br>위 버튼으로 첫 일기를 써보세요.</p>'; return; }
+    if (snap.docs[0].id === t) $('#homeToday').textContent = '✏️ 오늘 일기 이어 쓰기';
+    list.innerHTML = '';
+    snap.docs.forEach(d => {
+      const x = d.data(), dt = parseYmd(d.id);
+      const b = document.createElement('button'); b.className = 'hc'; b.type = 'button';
+      const prev = (x.body || '').replace(/\s+/g, ' ').trim().slice(0, 90);
+      b.innerHTML = `<div class="hd">${dt.getFullYear()}년 ${dt.getMonth() + 1}월 ${dt.getDate()}일 ${WD[dt.getDay()]}요일${x.photoCount ? ' · 📎' : ''}</div>`
+        + `<div class="ht">${x.title ? esc(x.title) : '<i>제목 없음</i>'}</div>` + (prev ? `<div class="hp">${esc(prev)}</div>` : '');
+      b.addEventListener('click', () => openDate(d.id));
+      list.appendChild(b);
+    });
+  }).catch(e => {
+    console.error(e);
+    const l = $('#homeList'); if (l) l.innerHTML = '<p class="muted">일기를 불러오지 못했어요.</p>';
+    toast(e.code === 'permission-denied' ? '권한 오류예요. Firestore 규칙의 이메일을 확인해주세요.' : '일기를 불러오지 못했어요.', 5000);
+  });
+}
+
+/* ---------- 완료 버튼 ---------- */
+let completing = false;
+async function completeAll() {
+  if (completing) return;
+  completing = true;
+  try {
+    const rs = await Promise.all(pages.map(p => p.settle()));
+    if (rs.includes('fail')) { toast('저장에 실패한 내용이 있어요. 잠시 후 다시 눌러주세요.', 4000); return; }
+    toast(rs.includes('timeout') ? '오프라인이에요. 인터넷에 연결되면 자동으로 저장돼요.' : '저장했어요 ✓', 3000);
+    await showHome();
+  } finally { completing = false; }
+}
+$('#btnHome').addEventListener('click', showHome);
+$('#btnTitle').addEventListener('click', showHome);
 
 $('#btnNew').addEventListener('click', () => openDate(today()));
 $('#btnPrev').addEventListener('click', flipPrev);
@@ -721,8 +822,12 @@ function refreshSide(now) {
 async function drawCal() {
   const host = $('#panelCal'), y = side.calY, m = side.calM;
   let map; try { map = await getYear(y); } catch { map = new Map(); }
+  const monthsWith = new Set(); map.forEach((v, k) => monthsWith.add(Number(k.slice(5, 7)) - 1));
   const first = new Date(y, m, 1), days = new Date(y, m + 1, 0).getDate(), t = today();
-  let h = `<div class="cal-head"><button data-c="-1">◀</button><strong>${y}년 ${m + 1}월</strong><button data-c="1">▶</button><button class="mini" data-c="t">오늘</button></div><div class="cal-grid">`;
+  let h = `<div class="cal-year"><button data-cy="-1" title="이전 해">◀</button><input type="number" id="calYearInp" value="${y}" min="1900" max="2999"><span>년</span><button data-cy="1" title="다음 해">▶</button><button class="mini" data-c="t">오늘</button></div>`;
+  h += '<div class="cal-months">';
+  for (let i = 0; i < 12; i++) h += `<button class="mo${i === m ? ' on' : ''}${monthsWith.has(i) ? ' has' : ''}" data-m="${i}">${i + 1}월</button>`;
+  h += '</div><div class="cal-grid">';
   WD.forEach((w, i) => { h += `<div class="wd${i === 0 ? ' sun' : i === 6 ? ' sat' : ''}">${w}</div>`; });
   for (let i = 0; i < first.getDay(); i++) h += '<div></div>';
   for (let d = 1; d <= days; d++) {
@@ -730,16 +835,19 @@ async function drawCal() {
     const c = ['day']; if (map.has(ds)) c.push('has'); if (ds === t) c.push('today'); if (ds === view.left || ds === view.right) c.push('sel');
     h += `<button class="${c.join(' ')}" data-d="${ds}">${d}</button>`;
   }
-  host.innerHTML = h + '</div><p class="muted">빨간 점이 있는 날은 일기를 쓴 날이에요.<br>빈 날짜를 누르면 그날 일기를 새로 쓸 수 있어요.</p>';
+  host.innerHTML = h + '</div><div class="cal-legend"><span class="lg"></span>초록 칸 + 빨간 점 = 일기를 쓴 날<br>빈 날짜를 누르면 그날 일기를 쓸 수 있어요</div>';
 }
 $('#panelCal').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   if (b.dataset.d) { openDate(b.dataset.d); return; }
-  if (b.dataset.c === 't') { const n = new Date(); side.calY = n.getFullYear(); side.calM = n.getMonth(); openDate(today()); return; }
-  if (b.dataset.c) {
-    side.calM += Number(b.dataset.c);
-    if (side.calM < 0) { side.calM = 11; side.calY--; } else if (side.calM > 11) { side.calM = 0; side.calY++; }
-    drawCal();
+  if (b.dataset.c === 't') { const n = new Date(); side.calY = n.getFullYear(); side.calM = n.getMonth(); drawCal(); return; }
+  if (b.dataset.cy) { side.calY += Number(b.dataset.cy); drawCal(); return; }
+  if (b.dataset.m !== undefined) { side.calM = Number(b.dataset.m); drawCal(); }
+});
+$('#panelCal').addEventListener('change', e => {
+  if (e.target.id === 'calYearInp') {
+    const v = parseInt(e.target.value, 10);
+    if (v >= 1900 && v <= 2999) { side.calY = v; drawCal(); }
   }
 });
 
@@ -835,7 +943,7 @@ $('#fileRestore').addEventListener('change', async ev => {
       n++; if (n % 5 === 0) toast(`불러오는 중… ${n}/${j.entries.length}`, 1500);
     }
     yearCache.clear(); toast(`일기 ${n}편을 불러왔어요.`, 3500);
-    if (view.left) openDate(view.left); else startedReopen();
+    if (view.left) openDate(view.left); else render();
   } catch (e) { console.error(e); toast('불러오는 중 오류가 났어요.'); }
 });
 async function startedReopen() {
